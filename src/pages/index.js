@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import CountryCard from "../components/CountryCard.js"
 import RegionSelector from "../components/RegionSelector.js"
+import SortSelector from "../components/SortSelector.js"
 import "../styles/global.css"
 
 export default function Home() {
@@ -9,13 +10,22 @@ export default function Home() {
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedRegion, setSelectedRegion] = useState("")
   const [displayCount, setDisplayCount] = useState(20)
+  const [sortType, setSortType] = useState("name-asc")
+  const [favorites, setFavorites] = useState([])
+
+  const toggleFavorite = (countryName) => {
+    if (favorites.includes(countryName)) {
+      setFavorites(favorites.filter(name => name !== countryName))
+    } else {
+      setFavorites([...favorites, countryName])
+    }
+  }
 
   const fetchCountries = async () => {
     try {
       const response = await fetch("https://restcountries.com/v3.1/all?fields=name,flags,region,population,area")
       const data = await response.json()
-      const sortedData = data.sort((a, b) => a.name.common.localeCompare(b.name.common))
-      setCountries(sortedData)
+      setCountries(data)
       setIsLoading(false)
     } catch (error) {
       console.error("fehler beim Laden", error)
@@ -46,6 +56,23 @@ export default function Home() {
     return matchesSearch && matchesRegion
   });
 
+  const sortedAndFilteredCountries = [...filteredCountries].sort((a, b) => {
+    const densityA = a.area > 0 ? a.population / a.area : 0;
+    const densityB = b.area > 0 ? b.population / b.area : 0;
+
+    switch (sortType) {
+      case "name-asc": return a.name.common.localeCompare(b.name.common);
+      case "name-desc": return b.name.common.localeCompare(a.name.common);
+      case "pop-asc": return a.population - b.population;
+      case "pop-desc": return b.population - a.population;
+      case "area-asc": return (a.area || 0) - (b.area || 0);
+      case "area-desc": return (b.area || 0) - (a.area || 0);
+      case "density-asc": return densityA - densityB;
+      case "density-desc": return densityB - densityA;
+      default: return 0;
+    }
+  });
+
   const hasMore = displayCount < filteredCountries.length
 
   if (isLoading) {
@@ -60,7 +87,7 @@ export default function Home() {
 
         <input
           type="text"
-          placeholder="Suche nach Land oder Kontinent..."
+          placeholder="Suche nach Land ..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="searchTerm"
@@ -68,7 +95,9 @@ export default function Home() {
 
         <RegionSelector selectedRegion={selectedRegion} setSelectedRegion={setSelectedRegion} />
 
-        <span style={{ fontWeight: "bold", color: "#444", backgroundColor: "#e2e8f0", padding: "8px 12px", borderRadius: "5px" }}>
+        <SortSelector sortType={sortType} setSortType={setSortType} />
+
+        <span className="counterBadge">
           {filteredCountries.length} Länder gefunden
         </span>
 
@@ -80,8 +109,12 @@ export default function Home() {
         gap: "20px",
         marginTop: "20px"
       }}>
-        {filteredCountries.slice(0, displayCount).map((country, index) => (
-          <CountryCard key={index} country={country} />
+        {sortedAndFilteredCountries.slice(0, displayCount).map((country, index) => (
+          <CountryCard 
+            key={index} 
+            country={country}
+            isFavorite={favorites.includes(country.name.common)}
+            onToggleFavorite={() => toggleFavorite(country.name.common)} />
         ))}
       </div>
       {hasMore && (
