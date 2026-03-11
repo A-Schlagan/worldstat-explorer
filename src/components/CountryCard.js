@@ -46,13 +46,13 @@ export default function CountryCard({ country, isFavorite, onToggleFavorite }) {
         </p>
       </div>
 
-      <span 
+      <button 
+        type="button"
         onClick={onToggleFavorite}
         className={`likeButton ${isFavorite ? "liked" : ""}`}
-        title="Zu Favoriten hinzufügen/entfernen"
       >
         {isFavorite ? "🤍" : "🤍"}
-      </span>
+      </button>
 
     </div>
   )

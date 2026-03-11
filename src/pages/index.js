@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import CountryCard from "../components/CountryCard.js"
 import RegionSelector from "../components/RegionSelector.js"
 import SortSelector from "../components/SortSelector.js"
+import Navbar from "../components/Navbar.js"
 import "../styles/global.css"
 
 export default function Home() {
@@ -76,11 +77,12 @@ export default function Home() {
   const hasMore = displayCount < filteredCountries.length
 
   if (isLoading) {
-    return <main><h2>Lade Länder...</h2></main>
+    return <main className="mainStyle"><h2>Lade Länder...</h2></main>
   }
 
   return (
-    <main style={{ padding: "20px", fontFamily: "sans-serif" }}>
+    <main className="mainStyle">
+      <Navbar/>
       <h1>WorldStat Explorer</h1>
 
       <div style={{ display: "flex", flexWrap: "wrap", gap: "15px", marginBottom: "20px", alignItems: "center" }}>
