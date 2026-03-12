@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import Navbar from "../components/Navbar.js"
 import { ComposableMap, Geographies, Geography, ZoomableGroup } from "react-simple-maps"
+import { PieChart, Pie, Tooltip, ResponsiveContainer } from "recharts"
 import "../styles/global.css"
 
 const geoUrl = "https://unpkg.com/world-atlas@2.0.2/countries-110m.json"
@@ -37,65 +38,89 @@ export default function Stats() {
     const topPopulated = [...countries].sort((a, b) => b.population - a.population).slice(0, 10)
     const topArea = [...countries].sort((a, b) => (b.area || 0) - (a.area || 0)).slice(0, 10)
     const totalPopulation = countries.reduce((sum, country) => sum + country.population, 0)
+    const regionCounts = countries.reduce((acc, country) => {
+        const region = country.region || "Andere"
+        acc[region] = (acc[region] || 0) + 1
+        return acc
+    }, {})
+    
+    const COLORS = ["#64ffda", "#3b82f6", "#8b5cf6", "#ec4899", "#f59e0b", "#10b981"]
+
+    const regionTranslations = {
+    "Europe": "Europa",
+    "Asia": "Asien",
+    "Africa": "Afrika",
+    "Americas": "Amerika",
+    "Oceania": "Ozeanien",
+    "Antarctic": "Antarktis",
+    "Andere": "Andere"
+  }
+
+    const pieData = Object.keys(regionCounts).map((key, index) => ({
+    name: regionTranslations[key] || key,
+    value: regionCounts[key], 
+    fill: COLORS[index % COLORS.length] 
+  }))
+    
 
     return (
         <main className="mainStyle">
             <Navbar />
             <h1>Welt-Statistiken</h1>
 
-      <div className="countryCard" style={{ marginBottom: "30px", padding: "20px", backgroundColor: "#112240" }}>
-        <div style={{ width: "100%", height: "400px", overflow: "hidden", borderRadius: "8px", backgroundColor: "#0a192f" }}>
-          
-          <ComposableMap projectionConfig={{ scale: 300 }} style={{ width: "100%", height: "100%" }}>
-            <ZoomableGroup>
-              <Geographies geography={geoUrl}>
-                {({ geographies }) =>
-                  geographies.map((geo) => (
-                    <Geography
-                      key={geo.rsmKey}
-                      geography={geo}
-                      onClick={() => {
-                        const clickedName = geo.properties.name;
-                        const found = countries.find(c => 
-                          c.name.common.includes(clickedName) || clickedName.includes(c.name.common)
-                        );
-                        
-                        if (found) {
-                          setSelectedCountry(found);
-                        } else {
-                          setSelectedCountry({
-                            name: { common: clickedName },
-                            population: "Keine Infos",
-                            area: "Keine Infos"
-                          });
-                        }
-                      }}
-                      style={{
-                        default: { fill: "#233554", stroke: "#0a192f", strokeWidth: 0.5, outline: "none" },
-                        hover: { fill: "#64ffda", stroke: "#0a192f", strokeWidth: 1, outline: "none", cursor: "pointer" },
-                        pressed: { fill: "#3b82f6", outline: "none" },
-                      }}
-                    />
-                  ))
-                }
-              </Geographies>
-            </ZoomableGroup>
-          </ComposableMap>
-        </div>
+            <div className="countryCard" style={{ marginBottom: "30px", padding: "20px", backgroundColor: "#112240" }}>
+                <div style={{ width: "100%", height: "400px", overflow: "hidden", borderRadius: "8px", backgroundColor: "#0a192f" }}>
 
-        {selectedCountry && (
-          <div className="selectedCountry">
-            <div>
-              <h3 style={{ margin: "0 0 5px 0", color: "#64ffda" }}>{selectedCountry.name.common}</h3>
-              <p style={{ margin: 0, color: "#ccd6f6", fontSize: "0.9rem" }}>
-                <strong>Einwohner:</strong> {typeof selectedCountry.population === "number" ? selectedCountry.population.toLocaleString() : selectedCountry.population} <br/>
-                <strong>Fläche:</strong> {typeof selectedCountry.area === "number" ? `${selectedCountry.area.toLocaleString()} km²` : selectedCountry.area}
-              </p>
+                    <ComposableMap projectionConfig={{ scale: 300 }} style={{ width: "100%", height: "100%" }}>
+                        <ZoomableGroup>
+                            <Geographies geography={geoUrl}>
+                                {({ geographies }) =>
+                                    geographies.map((geo) => (
+                                        <Geography
+                                            key={geo.rsmKey}
+                                            geography={geo}
+                                            onClick={() => {
+                                                const clickedName = geo.properties.name;
+                                                const found = countries.find(c =>
+                                                    c.name.common.includes(clickedName) || clickedName.includes(c.name.common)
+                                                );
+
+                                                if (found) {
+                                                    setSelectedCountry(found);
+                                                } else {
+                                                    setSelectedCountry({
+                                                        name: { common: clickedName },
+                                                        population: "Keine Infos",
+                                                        area: "Keine Infos"
+                                                    });
+                                                }
+                                            }}
+                                            style={{
+                                                default: { fill: "#233554", stroke: "#0a192f", strokeWidth: 0.5, outline: "none" },
+                                                hover: { fill: "#64ffda", stroke: "#0a192f", strokeWidth: 1, outline: "none", cursor: "pointer" },
+                                                pressed: { fill: "#3b82f6", outline: "none" },
+                                            }}
+                                        />
+                                    ))
+                                }
+                            </Geographies>
+                        </ZoomableGroup>
+                    </ComposableMap>
+                </div>
+
+                {selectedCountry && (
+                    <div className="selectedCountry">
+                        <div>
+                            <h3 style={{ margin: "0 0 5px 0", color: "#64ffda" }}>{selectedCountry.name.common}</h3>
+                            <p style={{ margin: 0, color: "#ccd6f6", fontSize: "0.9rem" }}>
+                                <strong>Einwohner:</strong> {typeof selectedCountry.population === "number" ? selectedCountry.population.toLocaleString() : selectedCountry.population} <br />
+                                <strong>Fläche:</strong> {typeof selectedCountry.area === "number" ? `${selectedCountry.area.toLocaleString()} km²` : selectedCountry.area}
+                            </p>
+                        </div>
+                    </div>
+                )}
+
             </div>
-          </div>
-        )}
-
-      </div>
 
             <div className="countryCard" style={{ marginBottom: "30px", padding: "30px", backgroundColor: "#233554" }}>
                 <h2 style={{ color: "#64ffda", margin: "0 0 10px 0", fontSize: "2.5rem" }}>
@@ -152,6 +177,32 @@ export default function Stats() {
                                 </div>
                             </div>
                         ))}
+                    </div>
+                </div>
+
+                <div className="countryCard" style={{ alignItems: "center", textAlign: "center" }}>
+                    <h3 style={{ color: "#e2e8f0", marginTop: 0 }}>Länder pro Kontinent</h3>
+                    <div style={{ width: "100%", height: "250px" }}>
+                        <ResponsiveContainer width="100%" height="100%">
+                            <PieChart>
+                                <Pie
+                                    data={pieData}
+                                    cx="50%"
+                                    cy="50%"
+                                    innerRadius={60}
+                                    outerRadius={90}
+                                    paddingAngle={5}
+                                    dataKey="value"
+                                    label={({ name, value }) => `${name}: ${value}`}
+                                >
+                                   
+                                </Pie>
+                                <Tooltip
+                                    contentStyle={{ backgroundColor: "#0a192f", border: "1px solid #233554", borderRadius: "8px", color: "#ccd6f6" }}
+                                    itemStyle={{ color: "#64ffda" }}
+                                />
+                            </PieChart>
+                        </ResponsiveContainer>
                     </div>
                 </div>
             </div>
