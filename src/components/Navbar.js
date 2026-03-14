@@ -3,6 +3,7 @@ import { Link } from "gatsby"
 
 export default function Navbar() {
     const [isDarkMode, setIsDarkMode] = useState(true);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     useEffect(() => {
         const savedTheme = localStorage.getItem("theme");
@@ -23,17 +24,25 @@ export default function Navbar() {
             setIsDarkMode(true);
         }
     };
+    const closeMenu = () => setIsMenuOpen(false);
 
     return (
         <nav className="navbar" style={{ justifyContent: "space-between", alignItems: "center" }}>
-            <div style={{ display: "flex", gap: "30px" }}>
-                <Link to="/" className="navLink" activeClassName="activeNavLink">
+            <button 
+                className="hamburger" 
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                aria-label="Menü umschalten"
+            >
+                {isMenuOpen ? "✖" : "☰"}
+            </button>
+            <div className={`navLinksContainer ${isMenuOpen ? "open" : ""}`}>
+                <Link to="/" className="navLink" activeClassName="activeNavLink" onClick={closeMenu}>
                     Dashboard
                 </Link>
-                <Link to="/stats" className="navLink" activeClassName="activeNavLink">
+                <Link to="/stats" className="navLink" activeClassName="activeNavLink" onClick={closeMenu}>
                     Statistiken
                 </Link>
-                <Link to="/quiz" className="navLink" activeClassName="activeNavLink">
+                <Link to="/quiz" className="navLink" activeClassName="activeNavLink" onClick={closeMenu}>
                     Flaggen-Quiz
                 </Link>
             </div>

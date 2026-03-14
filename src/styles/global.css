@@ -57,9 +57,18 @@ h2 {
 
 .navbar {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 30px;
     border-bottom: 1px solid var(--border-color);
     padding-bottom: 15px;
+    position: relative; 
+}
+
+.navLinksContainer {
+    display: flex;
+    gap: 30px;
+    align-items: center;
 }
 
 .navLink {
@@ -69,6 +78,47 @@ h2 {
     font-size: 1.1rem;
     transition: color 0.2s ease;
     padding-bottom: 5px;
+}
+
+.hamburger {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-main);
+    font-size: 1.8rem;
+    cursor: pointer;
+    padding: 0;
+}
+
+@media (max-width: 768px) {
+    .hamburger {
+        display: block; 
+    }
+
+    .navLinksContainer {
+        display: none; 
+        flex-direction: column;
+        position: absolute;
+        top: 100%; 
+        left: 0;
+        width: 100%;
+        background-color: var(--bg-card); 
+        padding: 20px 0;
+        border-radius: 8px;
+        box-shadow: 0 10px 20px var(--shadow-color);
+        z-index: 100; 
+        gap: 20px;
+        text-align: center;
+    }
+
+    .navLinksContainer.open {
+        display: flex;
+    }
+
+    .themeToggleBtn {
+        font-size: 0.8rem; 
+        padding: 6px 12px;
+    }
 }
 
 .navLink:hover {
