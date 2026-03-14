@@ -77,16 +77,15 @@ export default function Home() {
   const hasMore = displayCount < filteredCountries.length
 
   if (isLoading) {
-    return <main className="mainStyle"><h2>Lade Länder...</h2></main>
+    return <main className="mainStyle"><h2 className="loadingText">Lade Länder...</h2></main>
   }
 
   return (
     <main className="mainStyle">
-      <Navbar/>
+      <Navbar />
       <h1>WorldStat Explorer</h1>
 
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "15px", marginBottom: "20px", alignItems: "center" }}>
-
+      <div className="controlsContainer">
         <input
           type="text"
           placeholder="Suche nach Land ..."
@@ -96,38 +95,27 @@ export default function Home() {
         />
 
         <RegionSelector selectedRegion={selectedRegion} setSelectedRegion={setSelectedRegion} />
-
         <SortSelector sortType={sortType} setSortType={setSortType} />
 
         <span className="counterBadge">
           {filteredCountries.length} Länder gefunden
         </span>
-
       </div>
 
-      <div style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
-        gap: "20px",
-        marginTop: "20px"
-      }}>
+      <div className="countryGrid">
         {sortedAndFilteredCountries.slice(0, displayCount).map((country, index) => (
-          <CountryCard 
-            key={index} 
+          <CountryCard
+            key={index}
             country={country}
             isFavorite={favorites.includes(country.name.common)}
-            onToggleFavorite={() => toggleFavorite(country.name.common)} />
+            onToggleFavorite={() => toggleFavorite(country.name.common)}
+          />
         ))}
       </div>
+
       {hasMore && (
-        <p style={{ textAlign: "center", marginTop: "20px", color: "#666" }}>Scrolle für mehr Länder...</p>
+        <p className="loadMoreText">Scrolle für mehr Länder...</p>
       )}
     </main>
   )
-
-
-
-
-
-
 }

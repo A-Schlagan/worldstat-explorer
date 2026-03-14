@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function RegionSelector({selectedRegion, setSelectedRegion}){
+export default function RegionSelector({ selectedRegion, setSelectedRegion }) {
 
     const regions = [
         { label: "Alle Kontinente", value: "" },
@@ -11,8 +11,8 @@ export default function RegionSelector({selectedRegion, setSelectedRegion}){
         { label: "Ozeanien", value: "Oceania" }
     ];
 
-    return(
-        <select value={selectedRegion} onChange={(e)=> setSelectedRegion(e.target.value)} className="selectorRegion">
+    return (
+        <select value={selectedRegion} onChange={(e) => setSelectedRegion(e.target.value)} className="selectorRegion">
             {regions.map((region) => (
                 <option key={region.label} value={region.value}>
                     {region.label}

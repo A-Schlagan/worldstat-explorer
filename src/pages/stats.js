@@ -30,7 +30,7 @@ export default function Stats() {
         return (
             <main className="mainStyle">
                 <Navbar />
-                <h2 style={{ color: "#ccd6f6" }}>Lade Statistiken... </h2>
+                <h2 className="loadingText">Lade Statistiken... </h2>
             </main>
         )
     }
@@ -43,34 +43,32 @@ export default function Stats() {
         acc[region] = (acc[region] || 0) + 1
         return acc
     }, {})
-    
+
     const COLORS = ["#64ffda", "#3b82f6", "#8b5cf6", "#ec4899", "#f59e0b", "#10b981"]
 
     const regionTranslations = {
-    "Europe": "Europa",
-    "Asia": "Asien",
-    "Africa": "Afrika",
-    "Americas": "Amerika",
-    "Oceania": "Ozeanien",
-    "Antarctic": "Antarktis",
-    "Andere": "Andere"
-  }
+        "Europe": "Europa",
+        "Asia": "Asien",
+        "Africa": "Afrika",
+        "Americas": "Amerika",
+        "Oceania": "Ozeanien",
+        "Antarctic": "Antarktis",
+        "Andere": "Andere"
+    }
 
     const pieData = Object.keys(regionCounts).map((key, index) => ({
-    name: regionTranslations[key] || key,
-    value: regionCounts[key], 
-    fill: COLORS[index % COLORS.length] 
-  }))
-    
+        name: regionTranslations[key] || key,
+        value: regionCounts[key],
+        fill: COLORS[index % COLORS.length]
+    }))
 
     return (
         <main className="mainStyle">
             <Navbar />
             <h1>Welt-Statistiken</h1>
 
-            <div className="countryCard" style={{ marginBottom: "30px", padding: "20px", backgroundColor: "#112240" }}>
-                <div style={{ width: "100%", height: "400px", overflow: "hidden", borderRadius: "8px", backgroundColor: "#0a192f" }}>
-
+            <div className="countryCard statsMapCard">
+                <div className="mapContainer" style={{ backgroundColor: "#0a192f"}}>
                     <ComposableMap projectionConfig={{ scale: 300 }} style={{ width: "100%", height: "100%" }}>
                         <ZoomableGroup>
                             <Geographies geography={geoUrl}>
@@ -111,78 +109,70 @@ export default function Stats() {
                 {selectedCountry && (
                     <div className="selectedCountry">
                         <div>
-                            <h3 style={{ margin: "0 0 5px 0", color: "#64ffda" }}>{selectedCountry.name.common}</h3>
-                            <p style={{ margin: 0, color: "#ccd6f6", fontSize: "0.9rem" }}>
+                            <h3 className="selectedCountryTitle">{selectedCountry.name.common}</h3>
+                            <p className="selectedCountryText">
                                 <strong>Einwohner:</strong> {typeof selectedCountry.population === "number" ? selectedCountry.population.toLocaleString() : selectedCountry.population} <br />
                                 <strong>Fläche:</strong> {typeof selectedCountry.area === "number" ? `${selectedCountry.area.toLocaleString()} km²` : selectedCountry.area}
                             </p>
                         </div>
                     </div>
                 )}
-
             </div>
 
-            <div className="countryCard" style={{ marginBottom: "30px", padding: "30px", backgroundColor: "#233554" }}>
-                <h2 style={{ color: "#64ffda", margin: "0 0 10px 0", fontSize: "2.5rem" }}>
+            <div className="countryCard totalPopCard">
+                <h2 className="totalPopTitle">
                     {totalPopulation.toLocaleString()}
                 </h2>
-                <p style={{ color: "#ccd6f6", margin: 0, fontSize: "1.1rem" }}>Menschen leben insgesamt auf unserer Erde.</p>
+                <p className="totalPopText">Menschen leben insgesamt auf unserer Erde.</p>
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "20px" }}>
-
-                <div className="countryCard" style={{ alignItems: "flex-start", textAlign: "left" }}>
-                    <h3 style={{ color: "#64ffda", marginTop: 0 }}>Top 10 nach Einwohnern</h3>
-                    <div style={{ width: "100%" }}>
+            <div className="statsGrid">
+                {/* Top 10 Einwohner */}
+                <div className="countryCard statsListCard">
+                    <h3 className="statsListHeader">Top 10 nach Einwohnern</h3>
+                    <div className="statsListContainer">
                         {topPopulated.map((country, index) => (
-                            <div key={index} style={{ marginBottom: "15px" }}>
-                                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "5px" }}>
-                                    <strong style={{ color: "#e2e8f0" }}>{index + 1}. {country.name.common}</strong>
-                                    <span style={{ color: "#a8b2d1" }}>{country.population.toLocaleString()}</span>
+                            <div key={index} className="statItem">
+                                <div className="statItemDetails">
+                                    <strong className="statItemName">{index + 1}. {country.name.common}</strong>
+                                    <span className="statItemValue">{country.population.toLocaleString()}</span>
                                 </div>
-
-                                <div style={{ width: "100%", height: "8px", backgroundColor: "#0a192f", borderRadius: "4px" }}>
-                                    <div style={{
-
-                                        width: `${(country.population / topPopulated[0].population) * 100}%`,
-                                        height: "100%",
-                                        backgroundColor: "#64ffda",
-                                        borderRadius: "4px",
-                                        transition: "width 1s ease-out"
-                                    }}></div>
+                                <div className="statBarTrack">
+                                    <div
+                                        className="statBarFill popBar"
+                                        style={{ width: `${(country.population / topPopulated[0].population) * 100}%` }}
+                                    ></div>
                                 </div>
                             </div>
                         ))}
                     </div>
                 </div>
 
-                <div className="countryCard" style={{ alignItems: "flex-start", textAlign: "left" }}>
-                    <h3 style={{ color: "#ccd6f6", marginTop: 0 }}>Top 10 nach Fläche</h3>
-                    <div style={{ width: "100%" }}>
+                {/* Top 10 Fläche */}
+                <div className="countryCard statsListCard">
+                    <h3 className="statsListHeader areaHeader">Top 10 nach Fläche</h3>
+                    <div className="statsListContainer">
                         {topArea.map((country, index) => (
-                            <div key={index} style={{ marginBottom: "15px" }}>
-                                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "5px" }}>
-                                    <strong style={{ color: "#e2e8f0" }}>{index + 1}. {country.name.common}</strong>
-                                    <span style={{ color: "#a8b2d1" }}>{country.area.toLocaleString()} km²</span>
+                            <div key={index} className="statItem">
+                                <div className="statItemDetails">
+                                    <strong className="statItemName">{index + 1}. {country.name.common}</strong>
+                                    <span className="statItemValue">{country.area.toLocaleString()} km²</span>
                                 </div>
-
-                                <div style={{ width: "100%", height: "8px", backgroundColor: "#0a192f", borderRadius: "4px" }}>
-                                    <div style={{
-                                        width: `${(country.area / topArea[0].area) * 100}%`,
-                                        height: "100%",
-                                        backgroundColor: "#3b82f6",
-                                        borderRadius: "4px",
-                                        transition: "width 1s ease-out"
-                                    }}></div>
+                                <div className="statBarTrack">
+                                    <div
+                                        className="statBarFill areaBar"
+                                        style={{ width: `${(country.area / topArea[0].area) * 100}%` }}
+                                    ></div>
                                 </div>
                             </div>
                         ))}
                     </div>
                 </div>
 
-                <div className="countryCard" style={{ alignItems: "center", textAlign: "center" }}>
-                    <h3 style={{ color: "#e2e8f0", marginTop: 0 }}>Länder pro Kontinent</h3>
-                    <div style={{ width: "100%", height: "250px" }}>
+                {/* Tortendiagramm */}
+                <div className="countryCard statsPieCard">
+                    <h3 className="statsListHeader pieHeader">Länder pro Kontinent</h3>
+                    <div className="pieChartContainer">
                         <ResponsiveContainer width="100%" height="100%">
                             <PieChart>
                                 <Pie
@@ -194,9 +184,7 @@ export default function Stats() {
                                     paddingAngle={5}
                                     dataKey="value"
                                     label={({ name, value }) => `${name}: ${value}`}
-                                >
-                                   
-                                </Pie>
+                                />
                                 <Tooltip
                                     contentStyle={{ backgroundColor: "#0a192f", border: "1px solid #233554", borderRadius: "8px", color: "#ccd6f6" }}
                                     itemStyle={{ color: "#64ffda" }}
