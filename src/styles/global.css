@@ -62,7 +62,7 @@ h2 {
     margin-bottom: 30px;
     border-bottom: 1px solid var(--border-color);
     padding-bottom: 15px;
-    position: relative; 
+    position: relative;
 }
 
 .navLinksContainer {
@@ -92,21 +92,21 @@ h2 {
 
 @media (max-width: 768px) {
     .hamburger {
-        display: block; 
+        display: block;
     }
 
     .navLinksContainer {
-        display: none; 
+        display: none;
         flex-direction: column;
         position: absolute;
-        top: 100%; 
+        top: 100%;
         left: 0;
         width: 100%;
-        background-color: var(--bg-card); 
+        background-color: var(--bg-card);
         padding: 20px 0;
         border-radius: 8px;
         box-shadow: 0 10px 20px var(--shadow-color);
-        z-index: 100; 
+        z-index: 100;
         gap: 20px;
         text-align: center;
     }
@@ -116,7 +116,7 @@ h2 {
     }
 
     .themeToggleBtn {
-        font-size: 0.8rem; 
+        font-size: 0.8rem;
         padding: 6px 12px;
     }
 }

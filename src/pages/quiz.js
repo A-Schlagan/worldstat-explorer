@@ -7,7 +7,6 @@ export default function Quiz() {
     const [question, setQuestion] = useState(null)
     const [score, setScore] = useState(3)
     const [gameOver, setGameOver] = useState(false)
-
     const [feedback, setFeedback] = useState(null)
     const [selectedAnswer, setSelectedAnswer] = useState(null)
 
@@ -118,7 +117,7 @@ export default function Quiz() {
 
                                 return (
                                     <button
-                                        key={index}
+                                        key={optionName}
                                         onClick={() => handleAnswer(optionName)}
                                         className={btnClass}
                                         disabled={!!feedback} 

@@ -28,8 +28,8 @@ export default function Navbar() {
 
     return (
         <nav className="navbar" style={{ justifyContent: "space-between", alignItems: "center" }}>
-            <button 
-                className="hamburger" 
+            <button
+                className="hamburger"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 aria-label="Menü umschalten"
             >
