@@ -1,22 +1,35 @@
-WorldStat Explorer
+# WorldStat Explorer: Global Data & Statistics
 
-Dieses Projekt dient dazu, React-Konzepte zu vertiefen, den Umgang mit externen APIs zu üben und neue Libraries (wie Chart.js) in einer echten Anwendung auszuprobieren.
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Anschauen-success?style=for-the-badge)](https://thriving-mermaid-f3f6cd.netlify.app/)
 
-Lernziele & Fokus
--Umgang mit React State und Side Effects.
--Datenabruf (Fetching) von einer REST API (REST Countries API).
--Aufbau eines sauberen CSS Grids für eine responsive Karten-Ansicht.
--Implementierung von Such- und Filterfunktionen in Echtzeit.
--Einbindung von externen Libraries wie Chart.js für Diagramme.
+Eine interaktive, performante React-Single-Page-Application zur Erkundung globaler Länderdaten, Statistiken und Flaggen. Der Fokus lag auf sauberem State-Management, asynchronem Data-Fetching und einer responsiven UI.
 
-Tech-Stack
--Framework: React / Gatsby
--Styling: Vanilla CSS (Global Styles)
--Datenquelle: REST Countries API
+<p align="center"> 
+  <img src="./assets/startseite.png" width="48%" alt="Dashboard" /> 
+  <img src="./assets/filterfunktionen.png" width="48%" alt="Filter" />
+  <img src="./assets/stats_page.png" width="48%" alt="Stats" />
+  <img src="./assets/quiz_page.png" width="48%" alt="Quiz" />
+  <img src="./assets/light_mode.png" width="48%" alt="Light Mode" />
+  <img src="./assets/map_mobile.png" width="48%" alt="Mobile vers Map" />
+  <img src="./assets/mobile.png" width="48%" alt="Mobile Version" />
+</p>
 
-Ausblick (Was noch kommt)
-Dieses Projekt wird Schritt für Schritt erweitert. Auf der Roadmap stehen noch:
--Infinite Scroll: Automatisches Nachladen weiterer Länder beim Scrollen.
--Favoriten-System: Länder markieren und lokal speichern.
--Daten-Visualisierung: Ein Balkendiagramm (Chart.js) für die Top 10 bevölkerungsreichsten Länder.
--Quick View Modal: Ein Overlay mit weiteren Details beim Klick auf eine Länderkarte.
+## Tech Stack
+
+Dieses Projekt wurde komplett als moderne Frontend-App umgesetzt:
+
+* **Frontend:** React.js, Gatsby
+* **Styling:** Vanilla CSS
+* **APIs:** REST Countries API
+* **Libraries:** `recharts` (Datenvisualisierung), `react-simple-maps` (Interaktive Weltkarte)
+
+## Features
+
+* **Echtzeit-Daten:** Anbindung an die *REST Countries API* für immer aktuelle globale Daten.
+* **Filter:** Such- und Filterfunktionen (nach Regionen) in Echtzeit sowie Multi-Kriterien-Sortierung (Fläche, Einwohner, Dichte).
+* **Performance:** Implementierung von **Infinite Scrolling**, um Ladezeiten bei großen Datenmengen zu minimieren.
+* **Datenvisualisierung:** Interaktive Weltkarte (`react-simple-maps`) und anschauliche Torten-/Balkendiagramme (`recharts`).
+* **Gamification:** Ein integriertes Flaggen-Quiz mit dynamischem Punkte-System.
+* **UX / UI:** Lokaler Dark/Light-Mode Toggle (`localStorage`), vollständig responsives Design (inkl. Hamburger-Menü) und ein interaktives Favoriten-System.
+
+
