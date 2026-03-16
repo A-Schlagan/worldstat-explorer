@@ -10,8 +10,8 @@ Eine interaktive, performante React-Single-Page-Application zur Erkundung global
   <img src="./assets/stats_page.png" width="48%" alt="Stats" />
   <img src="./assets/quiz_page.png" width="48%" alt="Quiz" />
   <img src="./assets/light_mode.png" width="48%" alt="Light Mode" />
-  <img src="./assets/map_mobile.png" width="48%" alt="Mobile vers Map" />
-  <img src="./assets/mobile.png" width="48%" alt="Mobile Version" />
+  <img src="./assets/map_mobile.jpg" width="48%" alt="Mobile vers Map" />
+  <img src="./assets/mobile.jpg" width="48%" alt="Mobile Version" />
 </p>
 
 ## Tech Stack
