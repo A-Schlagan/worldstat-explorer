@@ -4,15 +4,24 @@
 
 Eine interaktive, performante React-Single-Page-Application zur Erkundung globaler Länderdaten, Statistiken und Flaggen. Der Fokus lag auf sauberem State-Management, asynchronem Data-Fetching und einer responsiven UI.
 
-<p align="center"> 
-  <img src="./assets/startseite.png" width="48%" alt="Dashboard" /> 
-  <img src="./assets/filterfunktionen.png" width="48%" alt="Filter" />
-  <img src="./assets/stats_page.png" width="48%" alt="Stats" />
-  <img src="./assets/quiz_page.png" width="48%" alt="Quiz" />
-  <img src="./assets/light_mode.png" width="48%" alt="Light Mode" />
-  <img src="./assets/map_mobile.jpg" width="48%" alt="Mobile vers Map" />
-  <img src="./assets/mobile.jpg" width="48%" alt="Mobile Version" />
-</p>
+<div align="center">
+  <h3>Desktop Ansicht</h3>
+  <img src="./assets/startseite.png" width="47%" alt="Dashboard" /> &nbsp;
+  <img src="./assets/filterfunktionen.png" width="47%" alt="Filter" />
+  <br><br>
+  <img src="./assets/stats_page.png" width="47%" alt="Stats" /> &nbsp;
+  <img src="./assets/quiz_page.png" width="47%" alt="Quiz" />
+  <br><br>
+  <img src="./assets/light_mode.png" width="47%" alt="Light Mode" />
+</div>
+
+<br>
+
+<div align="center">
+  <h3>Mobile Ansicht</h3>
+  <img src="./assets/map_mobile.jpg" height="400" alt="Mobile Map" /> &nbsp; &nbsp; &nbsp;
+  <img src="./assets/mobile.jpg" height="400" alt="Mobile Version" />
+</div>
 
 ## Tech Stack
 
