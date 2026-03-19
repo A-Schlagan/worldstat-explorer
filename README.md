@@ -1,6 +1,6 @@
 # WorldStat Explorer: Global Data & Statistics
 
-[![Live Demo](https://img.shields.io/badge/Live_Demo-Anschauen-success?style=for-the-badge)](https://thriving-mermaid-f3f6cd.netlify.app/)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-success?style=for-the-badge)](https://thriving-mermaid-f3f6cd.netlify.app/)
 
 Eine interaktive, performante React-Single-Page-Application zur Erkundung globaler Länderdaten, Statistiken und Flaggen. Der Fokus lag auf sauberem State-Management, asynchronem Data-Fetching und einer responsiven UI.
 
@@ -41,4 +41,13 @@ Dieses Projekt wurde komplett als moderne Frontend-App umgesetzt:
 * **Gamification:** Ein integriertes Flaggen-Quiz mit dynamischem Punkte-System.
 * **UX / UI:** Lokaler Dark/Light-Mode Toggle (`localStorage`), vollständig responsives Design (inkl. Hamburger-Menü) und ein interaktives Favoriten-System.
 
+---
+## Lokal starten
 
+### 1. Pakete installieren
+Node.js installieren
+  bash: npm install
+
+### 2. Projekt starten
+Entwicklungsserver starten
+  bash: npm run develop
