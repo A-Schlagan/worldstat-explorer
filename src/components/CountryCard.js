@@ -1,18 +1,19 @@
 import React from "react"
 
+// WICHTIG: CountryCard() wurde funktional entwickelt (NICHT klassenbasiert!)
 export default function CountryCard({ country, isFavorite, onToggleFavorite }) {
-  const area = country.area || 0;
-  let density = 0;
+  const area = country.area || 0
+  let density = 0
 
   if (area > 0) {
-    density = country.population / area;
+    density = country.population / area
   }
 
-  let densityColor = "green";
+  let densityColor = "green"
   if (density > 500) {
-    densityColor = "red";
+    densityColor = "red"
   } else if (density >= 100) {
-    densityColor = "#e6b800";
+    densityColor = "#e6b800"
   }
 
   return (
