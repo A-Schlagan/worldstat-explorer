@@ -1,6 +1,7 @@
 import * as React from "react"
 import { Link } from "gatsby"
 
+// WICHTIG: Header() wurde funktional entwickelt (NICHT klassenbasiert!)... und zwar als Arrow-Function!
 const Header = ({ siteTitle }) => (
   <header
     style={{
