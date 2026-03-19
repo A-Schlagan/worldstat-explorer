@@ -582,3 +582,55 @@ h2 {
     width: 100%;
     height: 250px;
 }
+
+/* src/styles/Feedback.css */
+.feedbackSection {
+  margin-top: 40px;
+  padding: 20px;
+  border-radius: 12px;
+  background-color: #f0f4f8;
+}
+
+.feedbackForm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.feedbackForm textarea {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  resize: vertical;
+  min-height: 80px;
+  font-size: 14px;
+}
+
+.feedbackForm button {
+  width: 120px;
+  padding: 8px 15px;
+  border-radius: 8px;
+  border: none;
+  background-color: #233554;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.feedbackForm button:hover {
+  background-color: #233554;
+}
+
+.commentsList {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.commentCard {
+  background-color: white;
+  padding: 10px 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}

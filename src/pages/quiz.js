@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import Navbar from "../components/Navbar.js"
+import Feedback from "../components/Feedback.js"
 import "../styles/global.css"
 
 // Quiz-Page (additional Feature)
@@ -148,6 +149,7 @@ export default function Quiz() {
           </>
         )}
       </div>
+      <Feedback />
     </main>
   )
 }

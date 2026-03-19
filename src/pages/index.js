@@ -137,6 +137,7 @@ export default function Home() {
             />
           ))}
       </div>
+      
 
       {hasMore && <p className="loadMoreText">Scrolle für mehr Länder...</p>}
     </main>
