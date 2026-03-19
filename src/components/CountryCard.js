@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, { useState } from "react"
 
 // WICHTIG: CountryCard() wurde funktional entwickelt (NICHT klassenbasiert!)
 export default function CountryCard({ country, isFavorite, onToggleFavorite }) {
@@ -36,8 +36,8 @@ export default function CountryCard({ country, isFavorite, onToggleFavorite }) {
 
   const currencies = country.currencies
     ? Object.values(country.currencies)
-        .map(currency => currency.name)
-        .join(", ")
+      .map(currency => currency.name)
+      .join(", ")
     : "Keine Angabe"
 
   const timezones =
@@ -46,10 +46,9 @@ export default function CountryCard({ country, isFavorite, onToggleFavorite }) {
       : "Keine Angabe"
 
   return (
-   <div
-      className={`countryCard relativeCard clickableCard ${
-        showDetails ? "openCard" : ""
-      }`}
+    <div
+      className={`countryCard relativeCard clickableCard ${showDetails ? "openCard" : ""
+        }`}
       onClick={() => setShowDetails(!showDetails)}
     >
       <img
@@ -99,7 +98,10 @@ export default function CountryCard({ country, isFavorite, onToggleFavorite }) {
 
       <button
         type="button"
-        onClick={onToggleFavorite}
+        onClick={e => {
+          e.stopPropagation()
+          onToggleFavorite()
+        }}
         className={`likeButton ${isFavorite ? "liked" : ""}`}
       >
         {isFavorite ? "🤍" : "🤍"}
