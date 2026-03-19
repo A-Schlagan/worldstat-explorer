@@ -11,11 +11,12 @@ import "../styles/global.css"
 
 const geoUrl = "https://unpkg.com/world-atlas@2.0.2/countries-110m.json"
 
-// Statistic-Page (additional Feature)
 export default function Stats() {
   const [countries, setCountries] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [selectedCountry, setSelectedCountry] = useState(null)
+  const [tooltip, setTooltip] = useState(null)
+  const [pos, setPos] = useState({ x: 0, y: 0 })
 
   useEffect(() => {
     const fetchCountries = async () => {
@@ -46,13 +47,16 @@ export default function Stats() {
   const topPopulated = [...countries]
     .sort((a, b) => b.population - a.population)
     .slice(0, 10)
+
   const topArea = [...countries]
     .sort((a, b) => (b.area || 0) - (a.area || 0))
     .slice(0, 10)
+
   const totalPopulation = countries.reduce(
     (sum, country) => sum + country.population,
     0
   )
+
   const regionCounts = countries.reduce((acc, country) => {
     const region = country.region || "Andere"
     acc[region] = (acc[region] || 0) + 1
@@ -98,14 +102,15 @@ export default function Stats() {
             <ZoomableGroup>
               <Geographies geography={geoUrl}>
                 {({ geographies }) =>
-                  geographies.map(geo => (
+                  geographies.map((geo) => (
                     <Geography
                       key={geo.rsmKey}
                       geography={geo}
                       onClick={() => {
                         const clickedName = geo.properties.name
+
                         const found = countries.find(
-                          c =>
+                          (c) =>
                             c.name.common.includes(clickedName) ||
                             clickedName.includes(c.name.common)
                         )
@@ -120,6 +125,25 @@ export default function Stats() {
                           })
                         }
                       }}
+                      onMouseMove={(event) => {
+                        const hoveredName = geo.properties.name
+
+                        const found = countries.find(
+                          (c) =>
+                            c.name.common.includes(hoveredName) ||
+                            hoveredName.includes(c.name.common)
+                        )
+
+                        if (!found) return
+
+                        setTooltip(found)
+
+                        setPos({
+                          x: event.clientX + 15,
+                          y: event.clientY + 15,
+                        })
+                      }}
+                      onMouseLeave={() => setTooltip(null)}
                       style={{
                         default: {
                           fill: "#233554",
@@ -142,6 +166,34 @@ export default function Stats() {
               </Geographies>
             </ZoomableGroup>
           </ComposableMap>
+
+          {/* ✅ Tooltip korrekt */}
+          {tooltip && (
+            <div
+              className="mapTooltip"
+              style={{
+                left: pos.x,
+                top: pos.y,
+                position: "fixed",
+              }}
+            >
+              <strong>{tooltip.name.common}</strong>
+
+              <p>
+                Population:{" "}
+                {typeof tooltip.population === "number"
+                  ? tooltip.population.toLocaleString()
+                  : tooltip.population}
+              </p>
+
+              <p>
+                Area:{" "}
+                {typeof tooltip.area === "number"
+                  ? `${tooltip.area.toLocaleString()} km²`
+                  : tooltip.area}
+              </p>
+            </div>
+          )}
         </div>
 
         {selectedCountry && (
@@ -154,7 +206,7 @@ export default function Stats() {
                 <strong>Einwohner:</strong>{" "}
                 {typeof selectedCountry.population === "number"
                   ? selectedCountry.population.toLocaleString()
-                  : selectedCountry.population}{" "}
+                  : selectedCountry.population}
                 <br />
                 <strong>Fläche:</strong>{" "}
                 {typeof selectedCountry.area === "number"
@@ -180,24 +232,10 @@ export default function Stats() {
           <div className="statsListContainer">
             {topPopulated.map((country, index) => (
               <div key={index} className="statItem">
-                <div className="statItemDetails">
-                  <strong className="statItemName">
-                    {index + 1}. {country.name.common}
-                  </strong>
-                  <span className="statItemValue">
-                    {country.population.toLocaleString()}
-                  </span>
-                </div>
-                <div className="statBarTrack">
-                  <div
-                    className="statBarFill popBar"
-                    style={{
-                      width: `${
-                        (country.population / topPopulated[0].population) * 100
-                      }%`,
-                    }}
-                  ></div>
-                </div>
+                <strong>
+                  {index + 1}. {country.name.common}
+                </strong>
+                <span>{country.population.toLocaleString()}</span>
               </div>
             ))}
           </div>
@@ -205,26 +243,16 @@ export default function Stats() {
 
         {/* Top 10 Fläche */}
         <div className="countryCard statsListCard">
-          <h3 className="statsListHeader areaHeader">Top 10 nach Fläche</h3>
+          <h3 className="statsListHeader areaHeader">
+            Top 10 nach Fläche
+          </h3>
           <div className="statsListContainer">
             {topArea.map((country, index) => (
               <div key={index} className="statItem">
-                <div className="statItemDetails">
-                  <strong className="statItemName">
-                    {index + 1}. {country.name.common}
-                  </strong>
-                  <span className="statItemValue">
-                    {country.area.toLocaleString()} km²
-                  </span>
-                </div>
-                <div className="statBarTrack">
-                  <div
-                    className="statBarFill areaBar"
-                    style={{
-                      width: `${(country.area / topArea[0].area) * 100}%`,
-                    }}
-                  ></div>
-                </div>
+                <strong>
+                  {index + 1}. {country.name.common}
+                </strong>
+                <span>{country.area.toLocaleString()} km²</span>
               </div>
             ))}
           </div>
@@ -232,7 +260,9 @@ export default function Stats() {
 
         {/* Tortendiagramm */}
         <div className="countryCard statsPieCard">
-          <h3 className="statsListHeader pieHeader">Länder pro Kontinent</h3>
+          <h3 className="statsListHeader pieHeader">
+            Länder pro Kontinent
+          </h3>
           <div className="pieChartContainer">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -246,15 +276,7 @@ export default function Stats() {
                   dataKey="value"
                   label={({ name, value }) => `${name}: ${value}`}
                 />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: "#0a192f",
-                    border: "1px solid #233554",
-                    borderRadius: "8px",
-                    color: "#ccd6f6",
-                  }}
-                  itemStyle={{ color: "#64ffda" }}
-                />
+                <Tooltip />
               </PieChart>
             </ResponsiveContainer>
           </div>
