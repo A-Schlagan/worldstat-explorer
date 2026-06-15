@@ -24,12 +24,24 @@ export default function Home() {
 
   const fetchCountries = async () => {
     try {
-      const response = await fetch("https://restcountries.com/v3.1/all")
-      const data = await response.json()
-      setCountries(data)
-      setIsLoading(false)
+      const response = await fetch("https://raw.githubusercontent.com/mledoze/countries/master/countries.json")
+      
+      if (!response.ok) {
+        throw new Error(`HTTP Fehler! Status: ${response.status}`)
+      }
+
+      const result = await response.json()
+      
+      if (Array.isArray(result)) {
+        setCountries(result)
+      } else {
+        console.error("Unerwartetes Datenformat:", result)
+        setCountries([])
+      }
     } catch (error) {
-      console.error("fehler beim Laden", error)
+      console.error("Fehler beim Laden:", error)
+      setCountries([])
+    } finally {
       setIsLoading(false)
     }
   }
