@@ -21,7 +21,7 @@ export default function Stats() {
     const fetchCountries = async () => {
       try {
         const response = await fetch(
-          "https://restcountries.com/v3.1/all?fields=name,population,area,region"
+          "https://raw.githubusercontent.com/mledoze/countries/master/countries.json"
         )
         const data = await response.json()
         setCountries(data)

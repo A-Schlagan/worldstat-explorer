@@ -15,7 +15,7 @@ export default function Quiz() {
     const fetchCountries = async () => {
       try {
         const response = await fetch(
-          "https://restcountries.com/v3.1/all?fields=name,flags"
+          "https://raw.githubusercontent.com/mledoze/countries/master/countries.json"
         )
         const data = await response.json()
         setCountries(data)
@@ -38,7 +38,8 @@ export default function Quiz() {
     const correctCountry = fourOptions[Math.floor(Math.random() * 4)]
 
     setQuestion({
-      flagUrl: correctCountry.flags.svg,
+      // Nutzt den cca2-Code (z.B. "de" für Deutschland) um die SVG von FlagCDN zu laden
+      flagUrl: `https://flagcdn.com/${correctCountry.cca2.toLowerCase()}.svg`,
       correctName: correctCountry.name.common,
       options: fourOptions.map(c => c.name.common),
     })
